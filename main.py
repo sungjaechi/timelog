@@ -33,7 +33,9 @@ class MyClient(discord.Client):
 			_, cmd, *argv = message.content.strip().split()
 			if cmd == 'help':
 				await message.channel.send(
-					"log start n: set a day's start n:00\\ log today : show user's spent time in voice channel today")
+					"log start n: set a day's start n:00\\ "
+					+ "log today : show user's voice channel log today\\"
+					+ "log user @mention : Show user's log history")
 
 			if cmd == 'start':
 				self.start_hour = int(argv[0])
