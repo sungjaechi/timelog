@@ -76,5 +76,6 @@ class MyClient(discord.Client):
 		pickle.dump(self.temp, a_file)
 		a_file.close()
 
+
 client = MyClient()
 client.run('ODExNTQ5MzYxOTA5MDA2MzY4.YCz0PQ.1VNSoiHbomNQMNwpqE5i-kwmRp8')
