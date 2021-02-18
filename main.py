@@ -42,11 +42,17 @@ class MyClient(discord.Client):
 
 			if cmd == 'today':
 				date = str((datetime.datetime.now() - datetime.timedelta(hours=self.start_hour)).date())
-				await message.channel.send(str(self.data.loc[date, message.author.name] / 60) + '분')
+				seconds = int(self.data.loc[date, message.author.name])
+				td = datetime.timedelta(seconds=seconds)
+				await message.channel.send(str(td))
 
 			if cmd == 'user':
+				sort_data = self.data.sort_index()
 				for member in message.mentions:
-					await message.channel.send(self.data.sort_index()[member.name])
+					for date, seconds in sort_data[member.name].iteritems():
+						seconds = int(seconds)
+						td = datetime.timedelta(seconds=seconds)
+						await message.channel.send(date + '\t' + str(td))
 
 	async def on_voice_state_update(self, member, before, after):
 		if member.name not in self.members:
@@ -73,4 +79,4 @@ class MyClient(discord.Client):
 
 
 client = MyClient()
-client.run('ODExNTQ5MzYxOTA5MDA2MzY4.YCz0PQ.1VNSoiHbomNQMNwpqE5i-kwmRp8')
+client.run('ODExNTQ5MzYxOTA5MDA2MzY4.YCz0PQ.iluaKOSnZrANd7uYohoHParM630')
