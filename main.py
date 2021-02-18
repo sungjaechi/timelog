@@ -38,7 +38,6 @@ class MyClient(discord.Client):
 			if cmd == 'start':
 				self.start_hour = int(argv[0])
 				df = pd.DataFrame([self.start_hour])
-				print(df)
 				pd.DataFrame([self.start_hour]).to_csv('./start.csv')
 
 			if cmd == 'today':
@@ -50,10 +49,6 @@ class MyClient(discord.Client):
 					await message.channel.send(self.data.sort_index()[member.name])
 
 	async def on_voice_state_update(self, member, before, after):
-		print(self.temp)
-		print(member.name in self.temp.keys())
-		print(self.members)
-		print(self.data)
 		if member.name not in self.members:
 			self.members.append(member.name)
 			self.data[member.name] = [0 for _ in self.data.index]
