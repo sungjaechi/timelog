@@ -68,7 +68,7 @@ class MyClient(discord.Client):
 			self.members.append(member.name)
 			self.data[member.name] = [0 for _ in self.data.index]
 
-		if before_channel is not None or before_channel.name not in self.ignore_channels:
+		if before_channel is not None and before_channel.name not in self.ignore_channels:
 			if member.name in self.temp.keys():
 				time_in = self.temp[member.name]
 				time_out = datetime.datetime.now()
@@ -78,7 +78,7 @@ class MyClient(discord.Client):
 					self.data.loc[date] = [0 for _ in self.members]
 				self.data.loc[date, member.name] += (time_out - time_in).total_seconds()
 
-		if after_channel is not None or after_channel.name not in self.ignore_channels:
+		if after_channel is not None and after_channel.name not in self.ignore_channels:
 			self.temp[member.name] = datetime.datetime.now()
 
 		self.data.to_csv(self.path)
