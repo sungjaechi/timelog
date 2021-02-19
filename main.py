@@ -10,6 +10,7 @@ class MyClient(discord.Client):
 		super().__init__()
 		self.path = './data.csv'
 		self.temp_path = './temp.pkl'
+		self.ignore_channels = ["라운지", "게임방"]
 		self.members = []
 		self.temp = {}
 		self.data = pd.DataFrame()
@@ -56,12 +57,18 @@ class MyClient(discord.Client):
 						td = datetime.timedelta(seconds=seconds)
 						await message.channel.send(date + '\t' + str(td))
 
+			if cmd == 'ignore':
+				channel_name = " ".join(argv)
+				self.ignore_channels.append(channel_name)
+
 	async def on_voice_state_update(self, member, before, after):
+		before_channel = before.channel
+		after_channel = after.channel
 		if member.name not in self.members:
 			self.members.append(member.name)
 			self.data[member.name] = [0 for _ in self.data.index]
 
-		if before is not None:
+		if before_channel is not None or before_channel.name not in self.ignore_channels:
 			if member.name in self.temp.keys():
 				time_in = self.temp[member.name]
 				time_out = datetime.datetime.now()
@@ -71,7 +78,7 @@ class MyClient(discord.Client):
 					self.data.loc[date] = [0 for _ in self.members]
 				self.data.loc[date, member.name] += (time_out - time_in).total_seconds()
 
-		if after is not None:
+		if after_channel is not None or after_channel.name not in self.ignore_channels:
 			self.temp[member.name] = datetime.datetime.now()
 
 		self.data.to_csv(self.path)
