@@ -1,0 +1,6 @@
+# .env stores the Discord token
+# DISCORD_TOKEN='--your token here without ' s--'
+.env
+
+data.csv
+temp.pkl

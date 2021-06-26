@@ -2,8 +2,11 @@ import discord
 import pandas as pd
 import datetime
 import os
+from dotenv import load_dotenv
 import pickle
 
+load_dotenv()
+TOKEN = os.getenv('DISCORD_TOKEN')
 
 class MyClient(discord.Client):
 	def __init__(self):
@@ -88,4 +91,4 @@ class MyClient(discord.Client):
 
 
 client = MyClient()
-client.run('ODExNTQ5MzYxOTA5MDA2MzY4.YCz0PQ.iluaKOSnZrANd7uYohoHParM630')
+client.run(TOKEN)
